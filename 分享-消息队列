@@ -30,33 +30,59 @@
 
 # rabbitMQ介绍
 
-## 虚拟主机
+```mermaid
+graph LR
+A[[生产者]] -->|发送消息|B
+subgraph Broker [服务器]
+	subgraph Vhost [虚拟机]
+		B([交换机]) -->|转发到队列| C[消息队列1] & E[消息队列2]
+	end
+end
+C --> D[[消费者]]
 
-## 交换机
+```
 
-## 绑定
+```mermaid
+sequenceDiagram
+participant publish as 生产者
+participant server as 服务器
+participant vhost as 虚拟机
+participant exchange as 交换机
+participant msgqueue as 消息队列
 
-## 队列
+publish ->>+ server: 发送消息
+server ->>+ vhost: 根据路径选择虚拟机
+vhost ->>+ exchange: 选择交换机
+exchange ->>+ msgqueue: 发送到消息队列
+msgqueue ->> msgqueue: 保存消息
+msgqueue -->>- exchange: 返回
+exchange -->>- vhost:返回
+vhost -->>- server: 返回结果
+server -->>- publish: 发送成功
+```
 
-## 通道
+```mermaid
+graph LR
+A[[生产者 - direct]] -->|发送消息| B([交换机]) -->|保存消息| C[消息队列] -->|消费| CM([消费者])
+A1[[生产者 - fanout]] -->|发送常规消息| B1([交换机 fanout]) -->|保存消息| C1[消息队列1] -->|消费| CM1([消费者])
+B1([交换机 fanout]) -->|保存消息| D1[消息队列2]   -->|消费| CM12([消费者])
+A2[[生产者 - topic]] -->|发送常规消息| B2([交换机 topic]) -->|*.rabbit| C2[消息队列1] -->|消费| CM2([消费者])
+B2-->|*.*rabbit| D2[消息队列2] -->|消费| CM21([消费者])
+```
 
-## 使用场景
 
-## 主要
+
+
 
 
 
 # Kafka介绍
 
-## topic
+```scheme
 
-## 分区
+```
 
-## 生产者
 
-## 消费组
-
-## 副本
 
 
 
