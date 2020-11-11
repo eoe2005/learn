@@ -27,3 +27,52 @@ Vscode中使用 Command+shift+p，输入Code-d:Run即可看到运行选项，回
 
 Mac安装地址  ：  https://www.yuque.com/lanceadd/nb5tvo/acx8ko
 
+# Brew镜像
+
+## 中科大镜像
+
+```
+# 替换brew.git:
+cd "$(brew --repo)"
+git remote set-url origin https://mirrors.ustc.edu.cn/brew.git
+
+# 替换homebrew-core.git:
+cd "$(brew --repo)/Library/Taps/homebrew/homebrew-core"
+git remote set-url origin https://mirrors.ustc.edu.cn/homebrew-core.git
+
+# 替换homebrew-cask.git:
+cd "$(brew --repo)/Library/Taps/homebrew/homebrew-cask"
+git remote set-url origin https://mirrors.ustc.edu.cn/homebrew-cask.git
+
+# 应用生效
+brew update
+# 替换homebrew-bottles:
+echo 'export HOMEBREW_BOTTLE_DOMAIN=https://mirrors.ustc.edu.cn/homebrew-bottles' >> ~/.zshrc
+source ~/.zshrc
+```
+
+## 切回官方
+
+```
+# 替换brew.git:
+cd "$(brew --repo)"
+git remote set-url origin https://github.com/Homebrew/brew.git
+
+# 替换homebrew-core.git:
+cd "$(brew --repo)/Library/Taps/homebrew/homebrew-core"
+git remote set-url origin https://github.com/Homebrew/homebrew-core.git
+
+# 替换homebrew-cask.git:
+cd "$(brew --repo)/Library/Taps/homebrew/homebrew-cask"
+git remote set-url origin https://github.com/Homebrew/homebrew-cask.git
+
+# 应用生效
+brew update
+
+# 删除.zshrc变量
+vim  ~/.zshrc
+# 删除如下变量
+```
+
+
+
