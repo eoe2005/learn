@@ -7,7 +7,12 @@
 > 启动虚拟机
 > xcrun instruments -w "iPhone 11 (14.0)"
 
+# Istat Menu注册码
 
+```
+Email: 982092332@qq.com
+SN: GAWAE-FCWQ3-P8NYB-C7GF7-NEDRT-Q5DTB-MFZG6-6NEQC-CRMUD-8MZ2K-66SRB-SU8EW-EDLZ9-TGH3S-8SGA
+```
 
 # DLang 安装
 
