@@ -10,4 +10,4 @@
 
 ## [表设计原则](mysql学习/数据库表设计原则.md)
 
-## [表设计原则](mysql学习/innoDB.md)
+## [表设计原则](mysql学习/InnoDB.md)
