@@ -1,9 +1,9 @@
 # xcode
 
 > 查看虚拟机列表
->
+> 
 > xcrun instruments -s
->
+> 
 > 启动虚拟机
 > xcrun instruments -w "iPhone 11 (14.0)"
 
@@ -26,8 +26,6 @@ D Programming Language
 Path Intellisense
 
 Vscode中使用 Command+shift+p，输入Code-d:Run即可看到运行选项，回车即可
-
-
 ```
 
 Mac安装地址  ：  https://www.yuque.com/lanceadd/nb5tvo/acx8ko
@@ -78,6 +76,3 @@ brew update
 vim  ~/.zshrc
 # 删除如下变量
 ```
-
-
-
