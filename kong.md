@@ -7,25 +7,25 @@
 
 ## 服务网关比较
 
-|   功能   |                             Kong                             |    GoKu(开源版本)     |
-| :------: | :----------------------------------------------------------: | :-------------------: |
-|   认证   | Basic Auth，Key Auth,Oauth2,Hmac Auth ,Jwt,Ldap Auth,Session |     Apikey,Basic      |
-|   路由   |                           Headers                            | Header（Strategy-Id） |
-| 服务发现 |                              -                               |    Eureka、Consul     |
-| 流量控制 | Rate Limmiting,Response Ratelimiting,Request Size Limiting,Request Termination,Proxy Cache |           -           |
-| 熔断降级 |                             支持                             |           -           |
-| SSL证书  |                             支持                             |           -           |
-|   监控   |                        Datadog,Zipkin                        |           -           |
-|   性能   |                              高                              |          高           |
-| 负载均衡 |                 支持,Ip,Header,Cookie,weight                 |        Weight         |
-|   日志   |    TcpLog，UdpLog,Http Log,File Log,Syslog, Statsd,Loggly    | Prometheus，Graphite  |
-| 数据转换 |   Request Transformer,Response Transformer,Correlation Id    |           -           |
-|   安全   |            Acl,Cors,IpRestriction,Boot Detection             |           -           |
-| 健康检查 |                           同Nginx                            |           -           |
-| 灰度发布 |                             支持                             |         支持          |
-| 插件支持 |                             lua                              |          go           |
-| 合作案例 |               Yahoo，masterCard的全球知名公司                | 电信3巨头，石化集团等 |
-| 数据支持 |                           Postgres                           |        Sqlite         |
+| 功能    | Kong                                                                                       | GoKu(开源版本)          |
+|:-----:|:------------------------------------------------------------------------------------------:|:-------------------:|
+| 认证    | Basic Auth，Key Auth,Oauth2,Hmac Auth ,Jwt,Ldap Auth,Session                                | Apikey,Basic        |
+| 路由    | Headers                                                                                    | Header（Strategy-Id） |
+| 服务发现  | -                                                                                          | Eureka、Consul       |
+| 流量控制  | Rate Limmiting,Response Ratelimiting,Request Size Limiting,Request Termination,Proxy Cache | -                   |
+| 熔断降级  | 支持                                                                                         | -                   |
+| SSL证书 | 支持                                                                                         | -                   |
+| 监控    | Datadog,Zipkin                                                                             | -                   |
+| 性能    | 高                                                                                          | 高                   |
+| 负载均衡  | 支持,Ip,Header,Cookie,weight                                                                 | Weight              |
+| 日志    | TcpLog，UdpLog,Http Log,File Log,Syslog, Statsd,Loggly                                      | Prometheus，Graphite |
+| 数据转换  | Request Transformer,Response Transformer,Correlation Id                                    | -                   |
+| 安全    | Acl,Cors,IpRestriction,Boot Detection                                                      | -                   |
+| 健康检查  | 同Nginx                                                                                     | -                   |
+| 灰度发布  | 支持                                                                                         | 支持                  |
+| 插件支持  | lua                                                                                        | go                  |
+| 合作案例  | Yahoo，masterCard的全球知名公司                                                                    | 电信3巨头，石化集团等         |
+| 数据支持  | Postgres                                                                                   | Sqlite              |
 
 ## 引入网关目标
 
@@ -110,11 +110,9 @@
 
 ### 干系人
 
-| 前端         | 后端 | 测试 |
-| ------------ | ---- | ---- |
-| 王明，李永强 | 王雪 |      |
-
-
+| 前端     | 后端  | 测试  |
+| ------ | --- | --- |
+| 王明，李永强 | 王雪  |     |
 
 ### 时间预估
 
@@ -248,8 +246,3 @@
 ### 干系人
 
 > 运维组，耿鸿飞
-
-
-
-
-

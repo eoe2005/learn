@@ -18,6 +18,4 @@ net.ipv4.tcp_syncookies = 1               #解决tcp的SYN攻击
 net.ipv4.tcp_max_syn_backlog = 1024       #TCP3次握手syn请求队列最大值，默认1024
 
 sysctl -p  修改生效
-
 ```
-

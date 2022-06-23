@@ -1,5 +1,3 @@
-
-
 ## MySQL 体系架构与存储引擎
 
 ### MySQL 体系结构
@@ -114,7 +112,7 @@
 ### InnoDB 关键特性
 
 - 插入缓冲 (Insert buffer)
-
+  
   - Insert Buffer
     - 插入自增主键时，只需要顺序读取，不需要随机访问
       - 并非所有主键插入都是顺序的
@@ -137,16 +135,16 @@
     - 非叶节点存放 search key。(space, marker, offset)
 
 - 两次写 (Double Write)
-
+  
   数据只有写到磁盘才安全，如果脏页未刷回，如何保证 crash safe？使用了 WAL，先写入 log 再刷回磁盘。由于 log 是顺序写入，性能过关，写入页的途中可能 crash，此时使用 double write 恢复，相当于存档
-
+  
   - 作用：带来数据页的可靠性，解决在将页写入磁盘时发生宕机
   - 由两部分缓存：内在中的 buffer，和磁盘上共享表空间的连续 128 个页，大小都是 2MB
   - 先将页复制到 double write buffer，再分两次，每次 1MB 写入磁盘，后马上调用 fsync 同步磁盘
   - double write 结束后再写入表空间的文件中
 
 - 自适应哈希索引 (Adaptive Hash Index)
-
+  
   - 会自动根据对索引页的查询情况创建哈希索引
   - 要求
     - 要求对页的连续访问模式必须一样
@@ -154,12 +152,12 @@
     - 页通过该模式访问了 N 次，N = 页中记录 * 1/16
 
 - 异步 IO (Async IO)
-
+  
   - 增加 IO 请求的吞吐
   - 底层实现可以进行 IO merge
 
 - 刷新邻接页 (Flush Neighbor Page)
-
+  
   - 刷新脏页时，会检测该页所在区的所有页，如果是脏页则一起刷新
   - 好处是可以合并 IO 操作
 
@@ -418,30 +416,29 @@
     - 中间节点小于填充因子
       - 合并叶子节点和它的兄弟节点，同时更新 Index Page
       - 1. 合并叶子节点和它的兄弟节点
-
 1. 更新 Index Page
 2. 合并 Index Page 和它的兄弟节点
 
 ### B+ 树索引
 
 - 聚集索引 (clustered index)
-
+  
   - 按每张表的主键构造一棵 B+ 树
-
+  
   - 同时叶子节点存放的即为整张表的行记录数据
-
+  
   - 每张表只能拥有一个聚集索引
-
+  
   - 聚集索引的存储是逻辑的连续而非物理上的
-
+    
     即页内是连续的，但是如果在多个页中，则并不需要在物理上连续
-
+  
   - 主键的排序查找和范围查找速度非常快
-
+    
     主要原因是数据本身就在叶子节点上，逻辑连续，因此只需要找到头和尾就可以通过双向链表顺序读取
 
 - 辅助索引 (secondary index)
-
+  
   - 叶子节点包含键值和 bookmark
     - bookmark 指向对应的行数据
     - bookmark 即为其聚集索引的键值
@@ -451,41 +448,41 @@
 - B+ 树索引的分裂
 
 - B+ 树索引的管理
-
+  
   - 索引管理
-
+    
     - ALTER TABLE
     - CREATE/DROP INDEX
     - SHOW INDEX FROM
       - Cardinality：尽可能接近 1
       - Sub_part: 是否只有列的部分用于索引
       - ……
-
+  
   - Fast index creation
-
+    
     - 创建时对表加上 S 锁，不需要重建表
     - 删除时只需更新内部视图
-
+  
   - Online Schema Change
-
+    
     操作比较复杂，需要复习
-
+  
   - Online DDL
-
+    
     - 原理是将 CUD 操作写入缓冲，完成索引创建后重新应用到表上
 
 ### Cardinality
 
 - 什么是 Cardinality 值？
-
+  
   高选择性的列适合建索引，即通过某个 key 能找到的数据越少越好
-
+  
   - SHOW INDEX 中可以看到对应的值
   - 代表索引中预估的不重复记录数
   - Cardinality/n_rows_in_table 应尽可能接近 1
 
 - Cardinality 统计
-
+  
   - 通过采样完成
   - 统计信息发生在 INSERT/UPDATE 时
   - 更新 Cardinality 信息的策略为
@@ -536,18 +533,18 @@
 ### 全文索引
 
 - 概述
-
+  
   - B+ 树支持前缀查找：(like ‘xxx%’)
   - MyISAM 支持
   - InnoDB 1.2.x 支持
 
 - 倒排索引
-
+  
   - Inverted file index: (term -> docId)
   - full inverted index (term -> (docId, position))
 
 - InnoDB 全文检索
-
+  
   - 使用 full inverted index
   - 需要将 word 放在一张表中：Auxiliary Table
   - 在 InnoDB 中，为了提高并行性能，存了 6 张，并根据 word 的 Latin 编码进行分区
@@ -564,9 +561,9 @@
     - 不支持没有 delimiter 的语言，如 CJK
 
 - 全文检索
-
+  
   讲了一些全文检索的语法
-
+  
   - MATCH (col1, col2, …) AGAINST (expr [search modifier])
 
 ## 锁
@@ -704,37 +701,37 @@
 ### 事务的实现
 
 - redo
-
+  
   - 基本概念
-
+    
     - 实现持久性，即 ACID 中的 D
-
+    
     - 包含两部分
-
+      
       - redo log buffer 内存中的，易失
       - redo log file 磁盘中的，持久
-
+    
     - 持久性通过 Force Log at Commit 实现
-
+      
       - 在事务提交时，必须将该事务的所有日志写到 redo log & undo log 文件中才算完成
-
+      
       - redo log 保证事务的持久性，基本是顺序写
-
+      
       - undo log 帮助事务回滚及 MVCC，需要随机读写
-
+      
       - 写入 redo log file 后要显示调用 fsync 确保真正刷回磁盘
-
+        
         innodb_flush_log_at_trx_commit 可以控制刷新策略默认为 1，代表写入文件且调用 fsync0 表示不进行写入操作，仅由 master thread 每 1 秒进行 fsync2 表示写入文件，但不强制 fsync
-
+    
     - bin log
-
+      
       - redo log 是存储引擎层，而 bin log 是数据库层, redo log 是 InnoDB 产生，bin log 对所有引擎适用
       - bin log 是逻辑日志，记录 SQL，redo log 是物理日志，记录对页的修改
       - bin log 只在事务提交后进行一次写入，redo log 在事务中不断被写入
       - redo log 中一个事务可能对应多个条目，写入是并发的
-
+  
   - log block
-
+    
     - redo log 以 512B 存储，称为 log block
     - log block 与磁盘的扇区大小一致，可以保证写入原子性，不需要 double write 技术
     - block header 占 12B & block tailer 共占用 8B
@@ -747,9 +744,9 @@
         - 表示 block 中第一个日志的偏移量
       - LOG_BLOCK_CHECKPOINT_NO(4)
         - 写入时 checkpoint 第 4 字节的值
-
+  
   - log group
-
+    
     - 逻辑概念，由多个 redo log file 组成
     - redo log file 存储的就是 log buffer 中保存的 log block
     - 刷回磁盘的策略
@@ -759,58 +756,58 @@
     - log block 会 append 在 redo log file 的末尾
     - log file 写满时，会写入下一个 log file (round-robin)
     - 每个 log file 的前 2KB 用于保存其它信息
-
+  
   - redo log 格式
-
+    
     - 存储管理是基于页的，因此 redo log 也基于页
     - | redo_log_type | space | page_no | redo log body |
-
+  
   - LSN
-
+    
     - 日志序列号，8B，单调递增
     - 含义
       - redo log 写入的总量
       - checkpoint 的位置
       - 页的版本
         - 如每个页上在保留着最后刷新数据对应的 LSN
-
+  
   - 恢复
-
+    
     - 由于 checkpoint 表示刷回磁盘页上的 LSN，仅需要从 checkpoint 后的日志开始恢复
 
 - undo
-
+  
   - 基本概念
-
+    
     - 用于回滚事务、MVCC
     - 存放在缓冲区中的特殊段(undo segment)，undo 段位于共享表空间
     - undo 是逻辑日志，只是做反向的修改，如 INSERT 操作写入一个 DELETE 作为 undo
     - undo log 也会产生 redo log，用于持久化
-
+  
   - undo 存储管理
-
+    
     - 有专门的 rollback segment，每个段记录 1024 个 undo segment，在 undo log segment 中申请 undo 页
     - 事务提交时
       - 将 undo log 放入列表 中，供之后 purge 操作
       - 判断 undo log 所在页是否可重用，若可以则分配给下个事务使用
     - 事务提交后不能立马删除 undo log 及所在页，因为可能有其它事务在使用(MVCC)
     - 会对 undo 页进行重用，事务提交时，先将它放入链表，若空间小于 3/4，则可以重用，新的 undo log 写在当前 undo log 之后
-
+  
   - undo log 格式
-
+    
     具体格式要看书，不过可能过于细节，正常做业务不需要理解
-
+    
     - insert undo log
       - INSERT 只对事务本身可见，对其它不可见（隔离性要求），因此事务提交后可以直接删除
     - update undo log
       - 可能被 MVCC 用到，只能等 purge 删除
-
+  
   - 查看 undo 信息
-
+    
     - SELECT segment_id, space, page_no FROM INNODB_TRX_ROLLBACK_SEGMENT;
 
 - purge
-
+  
   - purge 用于最终完成 delete/update 操作（由于 MVCC，并不能立即应用这些更改）
   - 内部有个 history list，会按照事务提交的顺序组织 undo log，先提交的事务总在末尾
   - purge 时，先找到每一个可以被清理的记录
@@ -818,7 +815,7 @@
   - 若没有，则再回 history list 查找
 
 - group commit
-
+  
   - group commit 来减少 fsync 的调用次数
 
 ### 事务控制语句
@@ -895,4 +892,3 @@
 - 执行时间太长的事务
 - 回滚的代价太大
 - 常常可以转换成 mini-batch 来提交
-
